@@ -5,6 +5,13 @@ class Solution:
 
         bed_len = len(flowerbed)
 
+        """
+        skip planting:
+            if the current bed is already planted
+            if the prev bed is already planted
+            if the next bed is already planted
+        """
+
         for i in range(bed_len):
             if flowerbed[i] != 0 or \
                 (i > 0 and flowerbed[i-1] != 0) or \
