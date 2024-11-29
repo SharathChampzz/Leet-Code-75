@@ -1,5 +1,27 @@
 class Solution:
     def maxOperations(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        left, right = 0, n-1
+        op_count = 0
+
+        nums.sort()
+
+        while left < right:
+            current_sum = nums[left] + nums[right]
+
+            if current_sum == k:
+                left += 1
+                right -= 1
+                op_count += 1
+            elif current_sum > k:
+                right -= 1
+            else:
+                left += 1
+
+        return op_count
+
+
+    def maxOperationsTwo(self, nums: List[int], k: int) -> int:
         """
             We need to find pair-sum, So it is like two sum problem, where we can levarage compliment to find missing number
 
