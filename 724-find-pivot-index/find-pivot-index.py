@@ -7,7 +7,7 @@ class Solution:
             total_sum = left_sum + pivot + right_sum
             total_sum = left_sum + pivot + left_sum # because left_sum == right_sum
             total_sum = 2*left_sum + pivot
-            left_sum = (total_sum - num) // 2
+            left_sum = (total_sum - num) / 2
             Let's calculate different left_sum and check where it leads to the current expression.
         """
 
