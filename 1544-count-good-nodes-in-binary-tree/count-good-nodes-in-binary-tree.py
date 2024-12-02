@@ -6,6 +6,7 @@
 #         self.right = right
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
+        # this is nothing but dfs but named as get_good_nodes_count
         # keep track of bigger number during traversal
         # if current_val is smaller than already visited bigger number it means it is not good node
         # if current_val is equal or greather than already visited numbers or that big number. It can be considered as good node
