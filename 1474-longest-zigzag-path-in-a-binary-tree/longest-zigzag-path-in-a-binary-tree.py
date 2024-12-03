@@ -9,25 +9,23 @@ class Solution:
 
         def dfs(node, count, prev_direction):
             if not node:
-                return count - 1 # reached leaf node, 
+                return count - 1  # Reached a leaf node, return the count minus one
 
             if prev_direction == -1:
-                # if we are coming from the left, next right path will have the count + 1
-                # but if we are coming from the left, and if we are going again to the left we have to reset count
+                # Prev direction was to the left, next right path will have count + 1
+                # If going left again, reset the count to 1
                 right_count = dfs(node.right, count + 1, 1)
-                left_count = dfs(node.left, 1, -1) # reset the count to 1
+                left_count = dfs(node.left, 1, -1)  # Reset the count to 1
             else:
-                right_count = dfs(node.right, 1, 1) # reset the count to 1
+                # Prev direction was to the right, next left path will have count + 1
+                # If going right again, reset the count to 1
+                right_count = dfs(node.right, 1, 1)  # Reset the count to 1
                 left_count = dfs(node.left, count + 1, -1)
 
             return max(left_count, right_count)
 
-        # we cannot directly pass root node, because it has no prev_direction
-        # so we need handle left and right separately
+        # Handle left and right separately since the root node has no previous direction
         left_count = dfs(root.left, 1, -1)
         right_count = dfs(root.right, 1, 1)
 
         return max(left_count, right_count)
-
-
-        
