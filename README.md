@@ -16,6 +16,6 @@ Tips for Choosing the Right Algorithm:
 
 - Minimum Spanning Tree: Use Prim's or Kruskal's Algorithm.
 
-= Pathfinding with Heuristics: Use A* Search.
+- Pathfinding with Heuristics: Use A* Search.
 
 
