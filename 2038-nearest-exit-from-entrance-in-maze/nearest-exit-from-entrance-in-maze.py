@@ -1,42 +1,31 @@
 class Solution:
     def nearestExit(self, maze: List[List[str]], entrance: List[int]) -> int:
-        m = len(maze)
-        n = len(maze[0])
+        m, n = len(maze), len(maze[0])
 
-        def bfs(start_node: tuple):
-            queue = deque([[start_node, 0]])
+        def bfs(start_node: Tuple[int, int]) -> int:
+            queue = deque([(start_node, 0)])  # Queue for BFS, storing (node, step_count)
             visited = set()
-            visited.add(tuple(start_node))
-
+            visited.add(start_node)
 
             while queue:
-                node = queue.popleft()
-                x, y = node[0]
-                step_count = node[1]
-                print(f'Now exploring : {node}')
+                (x, y), step_count = queue.popleft()
+                # print(f'Now exploring: {(x, y)} with step count: {step_count}')
 
-                possible_nodes = [(x+1, y), (x, y+1), (x-1, y), (x, y-1)]
+                # Possible moves: down, right, up, left
+                possible_moves = [(x + 1, y), (x, y + 1), (x - 1, y), (x, y - 1)]
 
-                for node in possible_nodes:
-                    node_x, node_y = node
-                    if node_x >= 0 and node_y >= 0 and node_x < m and node_y < n and maze[node_x][node_y] == '.' and node not in visited:
-                        print(f'Adding {node} to visited...')
-                        queue.append([node, step_count + 1])
-                        visited.add(node)
+                for nx, ny in possible_moves:
+                    if 0 <= nx < m and 0 <= ny < n and maze[nx][ny] == '.' and (nx, ny) not in visited:
+                        # print(f'Adding {(nx, ny)} to visited...')
+                        queue.append(((nx, ny), step_count + 1))
+                        visited.add((nx, ny))
 
-                        if node_x == 0 or node_y == 0 or node_x == m-1 or node_y == n-1:
+                        # Check if the current node is an exit (not the entrance)
+                        if (nx == 0 or ny == 0 or nx == m - 1 or ny == n - 1) and (nx, ny) != tuple(entrance):
                             return step_count + 1
 
-            return -1
+            return -1  # Return -1 if no exit is found
 
         result = bfs(tuple(entrance))
-
         print(result)
-
         return result
-
-
-
-
-
-        
