@@ -9,14 +9,14 @@ class Solution:
 
             while queue:
                 (x, y), step_count = queue.popleft()
-                # print(f'Now exploring: {(x, y)} with step count: {step_count}')
+                print(f'Now exploring: {(x, y)} with step count: {step_count}')
 
                 # Possible moves: down, right, up, left
                 possible_moves = [(x + 1, y), (x, y + 1), (x - 1, y), (x, y - 1)]
 
                 for nx, ny in possible_moves:
                     if 0 <= nx < m and 0 <= ny < n and maze[nx][ny] == '.' and (nx, ny) not in visited:
-                        # print(f'Adding {(nx, ny)} to visited...')
+                        print(f'Adding {(nx, ny)} to visited...')
                         queue.append(((nx, ny), step_count + 1))
                         visited.add((nx, ny))
 
@@ -27,5 +27,4 @@ class Solution:
             return -1  # Return -1 if no exit is found
 
         result = bfs(tuple(entrance))
-        print(result)
         return result
