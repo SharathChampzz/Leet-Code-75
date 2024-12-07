@@ -1,31 +1,53 @@
 class Solution:
     def minReorder(self, n: int, connections: List[List[int]]) -> int:
-        
-        # as this is directed graph, we cannot reach all the nodes, to even check if we can fix the router
-        # so build a bidirectional graph, that has the current direction set too.
-        # If the current direction is outward, it means we need to reverse it. But we just count. So increment route count.
+        """
+        This function determines the minimum number of edges that need to be reversed
+        to make all paths lead to city 0 in a directed graph.
+        """
 
-        graph = defaultdict(list) # adjancency list
+        # Build a bidirectional graph with direction information.
+        # If the direction is outward (from a to b), it means we need to reverse it.
+        graph = defaultdict(list)  # Adjacency list
 
         for a, b in connections:
-            graph[a].append((b, False)) # outward
-            graph[b].append((a, True)) # inward
+            graph[a].append((b, False))  # Outward edge
+            graph[b].append((a, True))   # Inward edge
 
-        visited = set()
-        def dfs(current_node):
+        visited = set()  # Set to keep track of visited nodes
+
+        def dfs(current_node: int) -> int:
+            """
+            Depth-First Search (DFS) to count the number of edges that need to be reversed.
+            """
             visited.add(current_node)
             count = 0
 
             for node, direction in graph[current_node]:
                 if node not in visited:
-                    if direction == False:
-                        count += 1 # current route
-                    count += dfs(node) # upcoming routes
+                    if not direction:
+                        count += 1  # Increment count for outward edge
+                    count += dfs(node)  # Recursively visit the next node
 
-            return count 
+            return count
 
-        result = dfs(0)
+        def bfs(current_node: int):
+            queue = deque([current_node])
+            visited.add(current_node)
+            count = 0
+
+            while queue:
+                node = queue.popleft()
+
+                for val, direction in graph[node]:
+                    if val not in visited:
+                        if direction == False:
+                            count += 1
+                        queue.append(val)
+                        visited.add(val)
+
+            return count
+
+        # result = dfs(0)  # Start DFS from city 0
+        result = bfs(0)  # Start BFS from city 0
 
         return result
-
-        
