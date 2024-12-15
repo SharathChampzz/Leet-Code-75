@@ -1,23 +1,29 @@
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        left, right = 0, len(nums)-1
+        # Initialize pointers for the left and right boundaries of the search
+        left, right = 0, len(nums) - 1
 
+        # Perform binary search
         while left <= right:
             mid = (left + right) // 2
-            print(f'left: {left}, right: {right}, mid: {mid}')
 
+            # Check if the middle element is the target
             if nums[mid] == target:
                 return mid
-            
-            if nums[left] <= nums[mid]: # left array is sorted
-                if target >= nums[left] and target < nums[mid]:
-                    right = mid - 1
-                else:
-                    left = mid + 1
-            else: # right array is sorted
-                if target > nums[mid] and target <= nums[right]:
-                    left = mid + 1
-                else:
-                    right = mid - 1
 
-        return -1
+            # Determine if the left half is sorted
+            if nums[left] <= nums[mid]:
+                # Check if the target is within the sorted left half
+                if target >= nums[left] and target < nums[mid]:
+                    right = mid - 1  # Narrow the search to the left half
+                else:
+                    left = mid + 1   # Narrow the search to the right half
+            else:
+                # The right half must be sorted
+                # Check if the target is within the sorted right half
+                if target > nums[mid] and target <= nums[right]:
+                    left = mid + 1   # Narrow the search to the right half
+                else:
+                    right = mid - 1  # Narrow the search to the left half
+
+        return -1 # target not found
