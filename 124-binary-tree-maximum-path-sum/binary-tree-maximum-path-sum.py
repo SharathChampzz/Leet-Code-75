@@ -4,27 +4,44 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
 class Solution:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
-        result = root.val
+        """
+        Finds the maximum path sum in a binary tree.
 
-        def dfs(node) -> int:
-            nonlocal result
+        Args:
+            root: The root of the binary tree.
+
+        Returns:
+            The maximum path sum.
+        """
+        self.max_sum = float('-inf')
+
+        def dfs(node):
+            """
+            Performs depth-first search to calculate the maximum path sum through the node.
+
+            Args:
+                node: The current node.
+
+            Returns:
+                The maximum path sum from the node to its subtree.
+            """
             if not node:
                 return 0
 
-            left_sum = dfs(node.left)
-            right_sum = dfs(node.right)
-            total = left_sum + right_sum + node.val
+            left_sum = max(dfs(node.left), 0)
+            right_sum = max(dfs(node.right), 0)
 
-            result = max([result, total, node.val, node.val + left_sum, node.val + right_sum])
-            print(f'total sum for parent node {node.val} is {total} ({left_sum} + {right_sum} + {node.val}) and current_max is {result}')
+            # Calculate the path sum through the current node
+            current_path_sum = left_sum + right_sum + node.val
 
-            return max(node.val, node.val + left_sum, node.val + right_sum)
+            # Update the global maximum sum
+            self.max_sum = max(self.max_sum, current_path_sum)
+
+            # Return the maximum path sum from the node to its subtree
+            return node.val + max(left_sum, right_sum)
 
         dfs(root)
-
-        return result
-
-        
-        
+        return self.max_sum
